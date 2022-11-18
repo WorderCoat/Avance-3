@@ -11,14 +11,14 @@ using namespace std;
 //[]
 string* nom, * clasificacion, * caracteristicas, * descripcion, * generos, encontrar;
 int opcion, registros, opcion2, eliminar, modificar;
-int* idarticulo, * numoc, * fecha;
+int* idarticulo, * item, * fecha;
 float* precio, * iva, * total;
 
 void Crear() {
 	printf("Cuantos articulos va a crear?\n");
 	scanf_s("%d", &registros);
 	idarticulo = new int[registros];
-	numoc = new int[registros];
+	item = new int[registros];
 	precio = new float[registros];
 	iva = new float[registros];
 	total = new float[registros];
@@ -34,8 +34,8 @@ void Crear() {
 	for (int i = 0;i < registros;i++) {
 		printf("Ingrese id del articulo\n");
 		scanf_s("%d", &idarticulo[i]);
-		printf("Ingrese el numero de compra\n");
-		scanf_s("%d", &numoc[i]);
+		printf("Ingrese el numero del articulo \n");
+		scanf_s("%d", &item[i]);
 		printf("Ingrese el nombre del videojuego\n");
 		cin.ignore();
 		getline(cin, nom[i]);
@@ -71,15 +71,19 @@ void Lista() {
 		getline(cin, encontrar);
 		int i = 0;
 		if (clasificacion[i] == encontrar) {
-			printf("Numero de compra:%d\n", numoc[i]);
-			printf("Nombre del videojuego:%s\n", nom[i].c_str());
-			printf("Year de salida del videojuego:%d\n", fecha[i]);
-			printf("Clasificaciones del videojuego:%s\n", clasificacion[i].c_str());
-			printf("Caracteristicas del videojuego:%s\n", caracteristicas[i].c_str());
-			printf("Descrpcion del videojuego:%s\n", descripcion[i].c_str());
-			printf("Generos que abarca el videojuego:%s\n",generos[i].c_str());
-			printf("Total:%f\n", total[i]);
-			break;
+			if (item[i] != 0) {
+				printf("Numero del articulo:%d\n", item[i]);
+				printf("Nombre del videojuego:%s\n", nom[i].c_str());
+				printf("Year de salida del videojuego:%d\n", fecha[i]);
+				printf("Clasificaciones del videojuego:%s\n", clasificacion[i].c_str());
+				printf("Caracteristicas del videojuego:%s\n", caracteristicas[i].c_str());
+				printf("Descrpcion del videojuego:%s\n", descripcion[i].c_str());
+				printf("Generos que abarca el videojuego:%s\n", generos[i].c_str());
+				printf("Precio unitario del videojuego:%f\n", precio[i]);
+				printf("Iva incluido es igual a:%f\n", iva[i]);
+				printf("Total:%f\n", total[i]);
+				break;
+			}
 		}
 
 	}
@@ -88,16 +92,20 @@ void Lista() {
 		cin.ignore();
 		getline(cin, encontrar);
 		int i = 0;
-		if (clasificacion[i] == encontrar) {
-			printf("Numero de compra:%d\n", numoc[i]);
-			printf("Nombre del videojuego:%s\n", nom[i].c_str());
-			printf("Year de salida del videojuego:%d\n", fecha[i]);
-			printf("Clasificaciones del videojuego:%s\n", clasificacion[i].c_str());
-			printf("Caracteristicas del videojuego:%s\n", caracteristicas[i].c_str());
-			printf("Descrpcion del videojuego:%s\n", descripcion[i].c_str());
-			printf("Generos que abarca el videojuego:%s\n", generos[i].c_str());
-			printf("Total:%f\n", total[i]);
-			break;
+		if (generos[i] == encontrar) {
+			if (item[i] != 0) {
+				printf("Numero de compra:%d\n", item[i]);
+				printf("Nombre del videojuego:%s\n", nom[i].c_str());
+				printf("Year de salida del videojuego:%d\n", fecha[i]);
+				printf("Clasificaciones del videojuego:%s\n", clasificacion[i].c_str());
+				printf("Caracteristicas del videojuego:%s\n", caracteristicas[i].c_str());
+				printf("Descrpcion del videojuego:%s\n", descripcion[i].c_str());
+				printf("Generos que abarca el videojuego:%s\n", generos[i].c_str());
+				printf("Precio unitario del videojuego:%f\n", precio[i]);
+				printf("Iva incluido es igual a:%f\n", iva[i]);
+				printf("Total:%f\n", total[i]);
+				break;
+			}
 		}
 	}
 	default: {
@@ -108,11 +116,12 @@ void Lista() {
 	}
 }
 void Eliminar() {
-	printf("Ingrese el id de articulo que quiera eliminar\n");
-	scanf_s("%d", eliminar);
+	printf("Ingrese el numero del articulo que desea eliminar\n");
+	scanf_s("%d", &eliminar);
 	for (int i = 0;i < registros;i++) {
-		if (eliminar == idarticulo[i]) {
-			idarticulo[i] = 0;
+		if (eliminar == item[i]) {
+			item[i] = 0;
+			printf("Se borro exitosamente\n");
 		}
 	}
 }
@@ -124,10 +133,10 @@ void Modificar() {
 	
 	for (int i = 0;i < registros;i++) {
 		if (modificar == idarticulo[i]) {
-			printf("Ingrese id del articulo\n");
+			printf("Ingrese nuevo  id del articulo\n");
 			scanf_s("%d", &idarticulo[i]);
 			printf("Ingrese el numero de compra\n");
-			scanf_s("%d", &numoc[i]);
+			scanf_s("%d", &item[i]);
 			printf("Ingrese el nombre del videojuego\n");
 			cin.ignore();
 			getline(cin, nom[i]);
@@ -154,24 +163,26 @@ void Modificar() {
 	}
 }
 void Archivo() {
-	string nombrearchivo;
 	ofstream archivo;
 	archivo.open("Articulos.txt", ios::out);
 	if (archivo.fail()) {
 		printf("No se pudo crear el archivo\n");
 	}
 	else {
-		int i = 0;
-		if (clasificacion[i] == encontrar) {
-			printf("Numero de compra:%d\n", numoc[i]);
-			printf("Nombre del videojuego:%s\n", nom[i].c_str());
-			printf("Year de salida del videojuego:%d\n", fecha[i]);
-			printf("Clasificaciones del videojuego:%s\n", clasificacion[i].c_str());
-			printf("Caracteristicas del videojuego:%s\n", caracteristicas[i].c_str());
-			printf("Descrpcion del videojuego:%s\n", descripcion[i].c_str());
-			printf("Generos que abarca el videojuego:%s\n", generos[i].c_str());
-			printf("Total:%f\n", total[i]);
-			
+		for (int i = 0;i < registros;i++) {
+			if (clasificacion[i] == encontrar) {
+				printf("Numero de compra:%d\n", item[i]);
+				printf("Nombre del videojuego:%s\n", nom[i].c_str());
+				printf("Year de salida del videojuego:%d\n", fecha[i]);
+				printf("Clasificaciones del videojuego:%s\n", clasificacion[i].c_str());
+				printf("Caracteristicas del videojuego:%s\n", caracteristicas[i].c_str());
+				printf("Descrpcion del videojuego:%s\n", descripcion[i].c_str());
+				printf("Generos que abarca el videojuego:%s\n", generos[i].c_str());
+				printf("Precio unitario del videojuego:%f\n", precio[i]);
+				printf("Iva incluido es igual a:%f\n", iva[i]);
+				printf("Total:%f\n", total[i]);
+
+			}
 		}
 	}
 	archivo.close();
@@ -180,8 +191,9 @@ void Archivo() {
 
 int main() {
 	while (opcion!=6) {
+		void Archivo();
 		printf("Bienvenido a esta tienda de videojuegos,\n Seleccione una opcion\n");
-		printf("1.-Crear articulo\n2.-Lista de articulos\n3.-Modificar articulo\n4.-Eliminar\n5.-Limpiar pantalla\n6.-Salir del programa\n");
+		printf("1.-Crear articulo\n2.-Lista de articulos\n3.-Modificar articulo\n4.-Eliminar articulo\n5.-Limpiar pantalla\n6.-Salir del programa\n");
 		scanf_s("%d", &opcion);
 		switch (opcion) {
 		case 1: {
@@ -211,7 +223,6 @@ int main() {
 		}
 		case 6: {
 			printf("Bonito dia,vuelva pronto <3\n");
-			EXIT_SUCCESS();
 			break;
 		}
 		default: {
@@ -220,5 +231,5 @@ int main() {
 		}
 		}
 	}
-	void archivo();
+	
 }
